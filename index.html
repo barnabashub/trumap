@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Map</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232b7a5b'/%3E%3Cpath d='M6 24l7-16 6 9 3-4 4 11z' fill='%23fff' opacity='.9'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<div id="map" aria-label="Map"></div>
+
+<!-- Triple-click target that reopens the editor while hidden. -->
+<div id="hotspot"></div>
+
+<div id="searchbox" class="ui">
+  <form id="search-form" autocomplete="off">
+    <input id="search-input" type="search" placeholder="Search this map…" aria-label="Search">
+    <button type="submit" id="search-btn" aria-label="Search">⌕</button>
+  </form>
+  <ul id="search-results" hidden></ul>
+</div>
+
+<button id="open-editor" class="ui fab" title="Edit labels (Ctrl+Shift+E)">✎</button>
+
+<aside id="panel" class="ui" hidden>
+  <header>
+    <h1>trumap</h1>
+    <button id="btn-hide" class="ghost" title="Hide the editor — the map then looks completely ordinary (Esc)">Hide ✕</button>
+  </header>
+
+  <p class="hint">Pick a label that exists on the map and say what should be drawn instead. Changes apply instantly and travel with the link.</p>
+
+  <form id="rule-form">
+    <div class="row">
+      <input id="rule-from" list="visible-names" placeholder="Original label (e.g. New York)" aria-label="Original label" required>
+      <button type="button" id="btn-pick" class="ghost" title="Pick a label by clicking the map">◎</button>
+    </div>
+    <datalist id="visible-names"></datalist>
+    <div class="row">
+      <input id="rule-to" placeholder="Replacement (e.g. Big Apple)" aria-label="Replacement" required>
+      <button type="submit" id="btn-add">Add</button>
+    </div>
+  </form>
+
+  <ul id="rules"></ul>
+  <p id="empty" class="empty">No replacements yet.</p>
+
+  <details id="tools">
+    <summary>More</summary>
+
+    <label class="field">
+      <span>Base map</span>
+      <select id="style-select"></select>
+    </label>
+
+    <div class="btnrow">
+      <button id="btn-share" class="ghost">Copy shareable link</button>
+      <button id="btn-demo" class="ghost">Load examples</button>
+    </div>
+
+    <label class="field">
+      <span>Bulk edit — one <code>original = replacement</code> per line</span>
+      <textarea id="bulk" rows="5" spellcheck="false" placeholder="New York = Big Apple&#10;Hudson River = The Big Wet"></textarea>
+    </label>
+    <div class="btnrow">
+      <button id="btn-bulk-apply" class="ghost">Apply text</button>
+      <button id="btn-clear" class="ghost danger">Delete all</button>
+    </div>
+
+    <p class="hint small">
+      Hidden mode leaves nothing but the map. Get back with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd>,
+      three clicks in the top-left corner, or <code>#k=0</code> at the end of the URL.
+    </p>
+  </details>
+</aside>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/maplibre-gl@5.24.0/dist/maplibre-gl.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
